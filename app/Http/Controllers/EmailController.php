@@ -17,7 +17,7 @@ class EmailController extends Controller
             'mail' => 'required|string',
             'domaine' => 'required|string',
             'mail_rec' => 'nullable|string',
-            'pass' => 'required|string',
+            
         ]);
         
         $fields['State'] = 'Actif';  

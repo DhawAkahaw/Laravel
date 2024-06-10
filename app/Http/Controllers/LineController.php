@@ -12,11 +12,10 @@ class LineController extends Controller
             'adsl_num' => 'required|string',
             'new_num_tel' => 'required|string',
             'state_line_prop' => 'nullable|boolean',
-            'nic' => 'nullable|string',
+           
             'rue'=>'nullable|string',
             'gouvernorat' => 'nullable|string',
             'delegation' => 'nullable|string',
-            
             'ville' => 'nullable|string',
             'code_postal' => 'nullable|string',
             'tel'=> 'required|string',

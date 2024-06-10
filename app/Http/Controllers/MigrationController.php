@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Demande_Migration;
 use Illuminate\Http\Request;
 
@@ -13,10 +14,15 @@ class MigrationController extends Controller
             'desired_offre' => 'required|string',
         ]);
 
-        $fields['Ticket'] = uniqid();  
-        $fields['gsm'] = $fields['Contract'];
+        $client = Client::find($clientId);
+        if (!$client) {
+            return response()->json(['message' => 'Client not found'], 404);
+        }
+
+        $fields['Ticket'] = uniqid();
+        $fields['gsm'] = $client->gsm; // Set gsm field to client's gsm
         $fields['remarque'] = '  . ';
-        $fields['State'] = 'In progress';  
+        $fields['State'] = 'In progress';
         $fields['client_id'] = $clientId;
 
         try {
