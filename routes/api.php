@@ -47,7 +47,7 @@ Route::post('/addf', [FactureController::class, 'add']);
 Route::get('/sanctum/csrf-cookie', [ClientController::class, 'getCSRFCookie']);
 
 Route::post('/log', [ClientController::class, 'login']);
-
+Route::post('/addc', [ContractController::class, 'add']);
 
 Route::get('/produit', [ProduitController::class, 'look']);
 Route::get('/produit/{clientId}', [ProduitController::class, 'add']);

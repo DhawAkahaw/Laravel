@@ -11,7 +11,6 @@ class Contrat extends Model
     protected $fillable = [
         'client_id',
 
-
         'reference_contrat',
         'designation',
         'date_de_debut',

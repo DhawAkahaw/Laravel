@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules\Password as RulesPassword;
  use Illuminate\Support\Facades\File;
 use App\Models\Client;
 use App\Models\Email;
+use App\Models\Produit;
 
 class ClientController extends Controller
 {
@@ -203,7 +204,30 @@ class ClientController extends Controller
         
         // Update the client's information
         $data = $request->except('picture'); // Exclude picture from the data
-        
+          // Retrieve the 'tel' field from the request
+        $newTel = $request->input('tel');
+        \Log::info('New Tel: ' . $newTel);
+        // Update the 'reference' in the 'Produit' model where 'reference' matches the client's current 'tel'
+        $produits = Produit::where('reference', $client->tel)->get();
+        \Log::info('Produits: ' . json_encode($produits)); // Log the Produits information
+
+        foreach ($produits as $produit) {
+            // Log the old reference value before update
+            \Log::info('Old Reference for Produit ' . $produit->id . ': ' . $produit->reference);
+            
+            // Update the reference
+            $produit->update(['reference' => $newTel]);
+            
+            // Log the updated reference value
+            \Log::info('Updated Reference for Produit ' . $produit->id . ': ' . $produit->reference);
+        }
+
+
+
+
+
+
+
         if ($request->hasFile('picture')) {
             $path = $client->picture;
             if (File::exists($path)) {
