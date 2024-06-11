@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Validation\Rules\Password as RulesPassword;
  use Illuminate\Support\Facades\File;
 use App\Models\Client;
+use App\Models\Email;
 
 class ClientController extends Controller
 {
@@ -73,6 +74,13 @@ class ClientController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
+        $mail = Email::create([
+        'mail'=>$client->login,
+        'mail_rec'=>' ',
+        'client_id'=>$client->_id,
+        'State'=>' test'
+        ]);
+
         $token = $client->createToken('myapptoken')->plainTextToken;
 
         $response = [
@@ -102,7 +110,7 @@ class ClientController extends Controller
 
         //validation des requêtes
         $validator = Validator::make($request->all(), [
-            'code_Client' => 'required',
+            'mail' => 'required',
             'password' => 'required' 
 
         ]);
@@ -115,17 +123,29 @@ class ClientController extends Controller
             ]);
         } else {
             //vérification des données saisies
-            $client = Client::where('code_Client', $request->code_Client)->first();
-            if(!$client || ($request->password !== $client->password)) {
+
+
+            
+            $client = Email::where('mail', $request->mail)->first();
+
+            if (!$client) {
+                return response()->json([
+                    'message' => 'Informations incorrectes'
+                ], 401);
+            }
+            
+            $code = Client::where('_id', $client->client_id)->first();
+            $pass = $code->password;
+            if(!$client || ($request->password !== $pass)) {
                 return response()->json([
                     'message' => 'Informations incorrectes'
 
                 ], 401);
             }
             else {
-                $clientinfo = $client;
+                $clientinfo = $code;
     
-                $token = $client->createToken('myapptoken')->plainTextToken;
+                $token = $code->createToken('myapptoken')->plainTextToken;
             
                 return response()->json([
                     'status' => 200,

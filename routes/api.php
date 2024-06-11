@@ -55,11 +55,11 @@ Route::get('/produit/{clientId}', [ProduitController::class, 'add']);
     Route::post('/forgot-password', [ClientController::class, 'forgotpassword']);
   
     Route::post('/reset-forgottenpassword', [ClientController::class, 'resetforgottenpassword']);
-
+    Route::post('/add', [ClientController::class, 'add']);
 // Protected Routes
     Route::group(['middleware' => ['auth:sanctum']], function () {  
     //Client
-    Route::post('/add', [ClientController::class, 'add']);
+    
     Route::get('/contract/{clientId}', [ContractController::class, 'monc']);
     Route::get('/option', [OptionsContractsController::class, 'look']);
     Route::put('/contrat/{id}', [OptionsContractsController::class, 'buy_option']);

@@ -18,7 +18,6 @@ class CreateEmailRecuperationsTable extends Migration
             $table->string('email_adress');
             $table->string('domain');
             $table->string('recovery_mail');
-            $table->string('password');
             $table->string('quota');
             $table->string('state');
             $table->timestamps();
