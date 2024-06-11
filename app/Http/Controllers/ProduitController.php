@@ -40,7 +40,7 @@ class ProduitController extends Controller
         $contrats = Contrat::where('client_id', $id)->get();
 
         foreach ($contrats as $contrat) {
-            $nom_commercial = $contrat->_id;
+            $nom_commercial = $contrat->id;
             
             // Check if a Produit with the given reference_contrat exists
             $existingProduit = Produit::where('reference_contrat', $nom_commercial)->first();
@@ -168,3 +168,4 @@ class ProduitController extends Controller
         //
     }
 }
+
