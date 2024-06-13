@@ -13,6 +13,7 @@ class Email extends Model
         'mail_rec',
         'client_id',
         'State',
+        'Quota'
     ];
 
     public function client()

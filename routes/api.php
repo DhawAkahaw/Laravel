@@ -52,7 +52,7 @@ Route::post('/addc', [ContractController::class, 'add']);
 
 Route::get('/produit', [ProduitController::class, 'look']);
 Route::get('/produit/{clientId}', [ProduitController::class, 'add']);
-    
+Route::post('/addmail/{id}', [EmailController::class, 'add']);
     Route::post('/forgot-password', [ClientController::class, 'forgotpassword']);
   
     Route::post('/reset-forgottenpassword', [ClientController::class, 'resetforgottenpassword']);
@@ -98,7 +98,7 @@ Route::get('/produit/{clientId}', [ProduitController::class, 'add']);
     Route::get('/contract/{clientId}', [ContractController::class, 'monc']);
     //mail
     Route::get('/maillist/{clientId}', [EmailController::class, 'maillist']);
-    Route::post('/addmail/{id}', [EmailController::class, 'add']);
+    
 
     
 });

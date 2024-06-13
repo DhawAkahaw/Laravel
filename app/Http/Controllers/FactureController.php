@@ -54,23 +54,23 @@ class FactureController extends Controller
             'facture' => $facture
         ]);
     }
-    public function add(Request $request) {
+    public function add(Request $request, $clientId) {
         $fields = $request->validate([
-            'client_id'=> 'required|string',
+            
             'montant_a_payer'=> 'required|string',
             'reste_a_payer'=> 'required|string',
             'prise_en_charge'=> 'required|string',
-            'echeance'=> 'required|string',
+            
         ]);
     
-        $echeance = Carbon::now()->addMonth()->format('d-m-Y H:i:s');
+        $echeance = Carbon::now()->addMonth()->format('Y-m-d');
         
         do {
             $numero_facture = mt_rand(100000, 999999);
         } while (Facture::where('numero_facture', $numero_facture)->exists());
     
         $facture = Facture::create([
-            'client_id' => $fields['client_id'],
+            'client_id' => $clientId,
             'montant_a_payer' => $fields['montant_a_payer'],
             'numero_facture' => $numero_facture,
             'reste_a_payer' => $fields['reste_a_payer'],
@@ -112,9 +112,9 @@ public function addauto(Request $request, $clientId) {
 
     $facture = Facture::create([
         'client_id' => $clientId,
-        'montant_a_payer' => '75',
+        'montant_a_payer' => '75.000',
         'numero_facture' => $numero_facture,
-        'reste_a_payer' => '75',
+        'reste_a_payer' => '75.000',
         'prise_en_charge' => 'Non',
         'echeance' => $echeance,
     ]);

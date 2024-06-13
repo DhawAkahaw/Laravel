@@ -19,13 +19,13 @@ class EmailController extends Controller
             'mail_rec' => 'nullable|string',
             
         ]);
-        
+        $fields['Quota'] = 20;  
         $fields['State'] = 'Actif';  
         $fields['client_id'] = $clientId;
 
         try {
             $mail = Email::create($fields);
-            return response()->json(['mail' => $mail ,'message' => 'Migration déposé avec success'], 201);
+            return response()->json(['mail' => $mail ,'message' => 'Email creé avec success'], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);
         }
