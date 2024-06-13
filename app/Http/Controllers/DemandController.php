@@ -20,7 +20,7 @@ class DemandController extends Controller
         ]);
 
         $fields['Ticket'] = uniqid();
-        $fields['Service'] = 'idk';
+        $fields['Service'] = '  ';
         $fields['State'] = 'In progress';
         $fields['created_@'] = new Date();
         $fields['client_id'] = $clientId;  // Add the client ID

@@ -49,7 +49,7 @@ class ProduitController extends Controller
 
                 $maxRefProduitContrat = Produit::max('ref_produit_contrat');
                 $uniqueRefProduitContrat = $maxRefProduitContrat ? $maxRefProduitContrat + 1 : 1;
-                $etat = $contrat->etat == '1' ? 'En cours' : 'your_default_etat_value';
+                $etat = $contrat->etat == '1' ? 'En cours' : 'Other';
                 $produit = new Produit([
                     'reference_contrat' => $contrat->id,
                     'ref_produit_contrat' => $uniqueRefProduitContrat,
