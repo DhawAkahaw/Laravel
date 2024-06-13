@@ -18,13 +18,9 @@ class SuggController extends Controller
         $fields['client_id'] = $clientId;
     
         try {
-            // Create a new suggestion with the validated data
             $sug = suggestion::create($fields);
-    
-            // Return a success response with the newly created suggestion
             return response()->json(['message' => 'Enquête de satisfaction déposé avec success','suggestion' => $sug], 201);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during creation
             return response()->json(['message' => 'Failed to create suggestion', 'error' => $e->getMessage()], 500);
         }
 

@@ -12,7 +12,7 @@ class LineController extends Controller
             'adsl_num' => 'required|string',
             'new_num_tel' => 'required|string',
             'state_line_prop' => 'nullable|boolean',
-           
+
             'rue'=>'nullable|string',
             'gouvernorat' => 'nullable|string',
             'delegation' => 'nullable|string',
@@ -28,17 +28,15 @@ class LineController extends Controller
         $fields['prev_num'] = $fields['tel'];
        
         $fields['State'] = 'In progress';  
-        $fields['Remarque'] = 'azeaze';
+        $fields['Remarque'] = '';
         $fields['client_id'] = $clientId;
 
         try {
-            // Create a new demande transfert ligne with the validated data
+
             $demandeTransfertLigne = Demande_Transfert_Ligne::create($fields);
-        
-            // Return a success response with the newly created demande transfert ligne
             return response()->json(['Line' => $demandeTransfertLigne ,'message' => 'Demande de transfert de ligne déposé avec success'], 201);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during creation
+           
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);
         }
     }

@@ -43,7 +43,8 @@ Route::resource('products', ProductController::class);
 
 // Public routes
 
-Route::post('/addf', [FactureController::class, 'add']);
+Route::post('/addf/{id}', [FactureController::class, 'add']);
+Route::post('/addfauto/{id}', [FactureController::class, 'addauto']);
 Route::get('/sanctum/csrf-cookie', [ClientController::class, 'getCSRFCookie']);
 
 Route::post('/log', [ClientController::class, 'login']);
@@ -70,9 +71,12 @@ Route::get('/produit/{clientId}', [ProduitController::class, 'add']);
     Route::post('/logout', [ClientController::class, 'logout']);
     Route::post('/update_profile/{id}', [ClientController::class, 'update']);
     Route::get('/currentuser', [ClientController::class, 'getCurrentUser']);
+    
     //Facture
     Route::post('/create-payment-intent', [StripePaymentController::class, 'createPaymentIntent']);
     Route::get('/factures/{clientId}', [FactureController::class, 'monf']);
+    Route::put('/factures/{id}', [FactureController::class, 'updateResteAPayer']);
+
     //Demand
     Route::post('/Submitdemand/{id}', [DemandController::class, 'add']);
     Route::get('/Demands/{clientId}', [DemandController::class, 'history']);

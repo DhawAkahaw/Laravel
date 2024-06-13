@@ -14,7 +14,7 @@
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "stripe/stripe-php": "^14.8"
+        "stripe/stripe-php": "^14.9"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

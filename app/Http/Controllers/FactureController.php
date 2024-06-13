@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
 use App\Models\Facture;
+use Illuminate\Support\Facades\Log;
 
 class FactureController extends Controller
 {
@@ -54,32 +54,68 @@ class FactureController extends Controller
             'facture' => $facture
         ]);
     }
-
+    public function add(Request $request) {
+        $fields = $request->validate([
+            'client_id'=> 'required|string',
+            'montant_a_payer'=> 'required|string',
+            'reste_a_payer'=> 'required|string',
+            'prise_en_charge'=> 'required|string',
+            'echeance'=> 'required|string',
+        ]);
+    
+        $echeance = Carbon::now()->addMonth()->format('d-m-Y H:i:s');
+        
+        do {
+            $numero_facture = mt_rand(100000, 999999);
+        } while (Facture::where('numero_facture', $numero_facture)->exists());
+    
+        $facture = Facture::create([
+            'client_id' => $fields['client_id'],
+            'montant_a_payer' => $fields['montant_a_payer'],
+            'numero_facture' => $numero_facture,
+            'reste_a_payer' => $fields['reste_a_payer'],
+            'prise_en_charge' => $fields['prise_en_charge'],
+            'echeance' => $echeance,
+        ]);
+        try {
+            // Generate PDF from the view
+            $pdf = Pdf::loadView('facture', compact('facture'));
+            $pdfPath = 'public/client_' . Str::random(10) . '.pdf';
+            Storage::put($pdfPath, $pdf->output());
+    
+            // Update the path for saving in the database
+            $facture->pdf_facture = Storage::url($pdfPath);
+            $facture->save();
+        } catch (\Exception $e) {
+            Log::error('PDF generation or saving failed: ' . $e->getMessage());
+            return response(['error' => 'Could not generate or save PDF'], 500);
+        }
+    
+        $response = [
+            'Facture' => $facture,
+        ];
+    
+        return response($response, 201);
+    }
 
     
     
  
-public function add(Request $request) {
-    $fields = $request->validate([
-        'client_id'=> 'required|string',
-        'montant_a_payer'=> 'required|string',
-        'reste_a_payer'=> 'required|string',
-        'prise_en_charge'=> 'required|string',
-        'echeance'=> 'required|string',
-    ]);
+public function addauto(Request $request, $clientId) {
+    
 
-    $echeance = Carbon::now()->addMonth()->format('d-m-Y H:i:s');
+    $echeance = Carbon::now()->addMonth()->format('Y-m-d');
     
     do {
         $numero_facture = mt_rand(100000, 999999);
     } while (Facture::where('numero_facture', $numero_facture)->exists());
 
     $facture = Facture::create([
-        'client_id' => $fields['client_id'],
-        'montant_a_payer' => $fields['montant_a_payer'],
+        'client_id' => $clientId,
+        'montant_a_payer' => '75',
         'numero_facture' => $numero_facture,
-        'reste_a_payer' => $fields['reste_a_payer'],
-        'prise_en_charge' => $fields['prise_en_charge'],
+        'reste_a_payer' => '75',
+        'prise_en_charge' => 'Non',
         'echeance' => $echeance,
     ]);
     try {

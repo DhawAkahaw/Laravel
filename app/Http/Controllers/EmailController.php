@@ -24,13 +24,9 @@ class EmailController extends Controller
         $fields['client_id'] = $clientId;
 
         try {
-            // Create a new demande transfert ligne with the validated data
             $mail = Email::create($fields);
-        
-            // Return a success response with the newly created demande transfert ligne
             return response()->json(['mail' => $mail ,'message' => 'Migration déposé avec success'], 201);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during creation
             return response()->json(['message' => 'Failed to create DemandeTransfertLigne', 'error' => $e->getMessage()], 500);
         }
     }

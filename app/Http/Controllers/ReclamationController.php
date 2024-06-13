@@ -22,7 +22,7 @@ class ReclamationController extends Controller
 
         $reclamation = new Reclamation();
         $reclamation->Ticket = uniqid();
-        $reclamation->client_id = $id; // assuming you are using the user ID from the path parameter
+        $reclamation->client_id = $id; 
         $reclamation->offre = $request->input('offre');
         $reclamation->Service = $request->input('Service');
         $reclamation->Category = $request->input('Category');

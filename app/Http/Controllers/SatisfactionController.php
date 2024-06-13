@@ -22,13 +22,13 @@ class SatisfactionController extends Controller
         
 
         try {
-            // Create a new suggestion with the validated data
+            
             $enqueteSatisfaction = Enquete_Satisfaction::create($validatedData);
     
-            // Return a success response with the newly created suggestion
+            
             return response()->json(['message' => 'Suggestions déposé avec success','suggestion' => $enqueteSatisfaction], 201);
         } catch (\Exception $e) {
-            // Handle any exceptions that occur during creation
+            
             return response()->json(['message' => 'Failed to create suggestion', 'error' => $e->getMessage()], 500);
         }
     }

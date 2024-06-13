@@ -42,17 +42,14 @@ class ProduitController extends Controller
         foreach ($contrats as $contrat) {
             $nom_commercial = $contrat->id;
             
-            // Check if a Produit with the given reference_contrat exists
+            
             $existingProduit = Produit::where('reference_contrat', $nom_commercial)->first();
         
             if (!$existingProduit) {
-                // Generate a unique value for ref_produit_contrat
+
                 $maxRefProduitContrat = Produit::max('ref_produit_contrat');
                 $uniqueRefProduitContrat = $maxRefProduitContrat ? $maxRefProduitContrat + 1 : 1;
-        
-                // Determine the value of 'etat'
                 $etat = $contrat->etat == '1' ? 'En cours' : 'your_default_etat_value';
-        
                 $produit = new Produit([
                     'reference_contrat' => $contrat->id,
                     'ref_produit_contrat' => $uniqueRefProduitContrat,
